@@ -6,7 +6,7 @@
     <!-- ============================================================ -->
     <menuitem id="menu_pet_clinic_root"
               name="Pet Clinic"
-              web_icon="pet_clinic,static/description/icon.png"
+              web_icon="pet_clinic,static/description/logo-odoo-pet-clinic-remove.png"
               sequence="1"/>
 
     <!-- ============================================================ -->

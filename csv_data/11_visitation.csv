@@ -1,0 +1,7 @@
+owner_id/name,pet_id/name,date_start,doctor_id/name,paramedis_id/name,penanganan,lokasi_pemeriksaan/name,room_id/name,weight,temperature,keluhan_tujuan,diagnosis,therapy,state
+Agus Wijaya,Buddy,2026-05-01 09:00:00,drh. Ahmad Fauzi,Andi Saputra,rawat_jalan,Klinik Utama Pasuruan,Ruang Periksa 1,25.5,38.5,Nafsu makan menurun dan lesu,Gastritis ringan,Pemberian antasida dan vitamin,done
+Budi Hartono,Rocky,2026-05-02 10:30:00,drh. Budi Santoso,Dewi Anggraini,rawat_jalan,Klinik Utama Pasuruan,Ruang Periksa 2,30.2,39.1,Gatal-gatal dan kerontokan bulu,Dermatitis alergi,Antihistamin dan sampo medis,done
+Citra Lestari,Mochi,2026-05-03 08:00:00,drh. Siti Rahayu,Fajar Kurniawan,rawat_inap,Klinik Cabang Pandaan,Ruang Rawat Inap A,3.8,38.2,Muntah-muntah dan diare 2 hari,Parvovirus suspek,Infus dan antibiotik,in_process
+Dewi Rahayu,Luna,2026-05-04 14:00:00,drh. Lestari Dewi,Ratna Sari,rawat_jalan,Klinik Utama Pasuruan,Ruang Periksa 1,4.1,38.8,Mata merah dan berair,Konjungtivitis,Tetes mata antibiotik,done
+Irwan Kusuma,Max,2026-05-05 09:00:00,drh. Rizky Pratama,Hendra Kusuma,rawat_jalan,Klinik Cabang Bangil,Ruang Periksa 3,28.7,38.6,Kaki pincang setelah main,Sprain ligamen,Antiinflamasi dan istirahat,done
+Jasmine Putri,Bella,2026-05-06 11:00:00,drh. Ahmad Fauzi,Andi Saputra,rawat_jalan,Klinik Utama Pasuruan,Ruang Konsultasi,3.5,38.3,Cek rutin dan vaksinasi,Sehat - vaksinasi rabies,Vaksin rabies dan vitamin,done

@@ -1,0 +1,9 @@
+owner_id/name,pet_id/name,date,doctor_id/name,location_id/name,room_id/name,state
+Agus Wijaya,Buddy,2026-05-10 09:00:00,drh. Ahmad Fauzi,Klinik Utama Pasuruan,Ruang Periksa 1,draft
+Budi Hartono,Rocky,2026-05-10 10:00:00,drh. Budi Santoso,Klinik Utama Pasuruan,Ruang Periksa 2,confirmed
+Citra Lestari,Mochi,2026-05-11 09:30:00,drh. Siti Rahayu,Klinik Cabang Pandaan,Ruang Konsultasi,draft
+Dewi Rahayu,Luna,2026-05-11 11:00:00,drh. Lestari Dewi,Klinik Utama Pasuruan,Ruang Periksa 1,confirmed
+Irwan Kusuma,Max,2026-05-12 08:00:00,drh. Rizky Pratama,Klinik Cabang Bangil,Ruang Periksa 3,draft
+Jasmine Putri,Bella,2026-05-12 14:00:00,drh. Ahmad Fauzi,Klinik Utama Pasuruan,Ruang Konsultasi,confirmed
+Agus Wijaya,Coco,2026-05-13 09:00:00,drh. Nurul Hidayah,Klinik Utama Pasuruan,Ruang Gigi & Mulut,draft
+Eko Prasetyo,Bunnybun,2026-05-13 13:00:00,drh. Ahmad Fauzi,Klinik Cabang Pandaan,Ruang Periksa 2,draft

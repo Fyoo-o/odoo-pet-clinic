@@ -58,7 +58,7 @@
                         <group>
                             <field name="owner_id"/>
                             <field name="type_id"/>
-                            <field name="breed_id"/>
+                            <field name="breed_id" domain="[('type_id', '=', type_id)]"/>
                             <field name="gender"/>
                         </group>
                         <group>

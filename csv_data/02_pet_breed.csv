@@ -1,0 +1,36 @@
+name,type_id/name
+Golden Retriever,Anjing
+Labrador Retriever,Anjing
+German Shepherd,Anjing
+Poodle,Anjing
+Bulldog,Anjing
+Chihuahua,Anjing
+Beagle,Anjing
+Siberian Husky,Anjing
+Rottweiler,Anjing
+Shih Tzu,Anjing
+Persian,Kucing
+Maine Coon,Kucing
+Siamese,Kucing
+British Shorthair,Kucing
+Ragdoll,Kucing
+Bengal,Kucing
+Scottish Fold,Kucing
+Anggora,Kucing
+Dutch,Kelinci
+Rex,Kelinci
+Lionhead,Kelinci
+Lovebird,Burung
+Kenari,Burung
+Cucak Rowo,Burung
+Murai Batu,Burung
+Pleci,Burung
+Hamster Syria,Hamster
+Hamster Roborovski,Hamster
+Hamster Campbell,Hamster
+Koi,Ikan
+Arwana,Ikan
+Louhan,Ikan
+Iguana,Reptil
+Bearded Dragon,Reptil
+Gecko,Reptil

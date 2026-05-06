@@ -33,6 +33,7 @@ class PetClinicPet(models.Model):
     )
     breed_id = fields.Many2one(
         'pet_clinic.pet_breed', string='Breed', tracking=True,
+        domain="[('type_id', '=', type_id)]",
     )
     owner_id = fields.Many2one(
         'pet_clinic.client', string='Owner', tracking=True,
@@ -102,6 +103,18 @@ class PetClinicPet(models.Model):
                     'pet_clinic.pet'
                 ) or 'New'
         return super().create(vals_list)
+
+    @api.onchange('type_id')
+    def _onchange_type_id(self):
+        """Reset breed when pet type changes, and restrict domain."""
+        self.breed_id = False
+        if self.type_id:
+            return {
+                'domain': {
+                    'breed_id': [('type_id', '=', self.type_id.id)]
+                }
+            }
+        return {'domain': {'breed_id': []}}
 
     def name_get(self):
         result = []

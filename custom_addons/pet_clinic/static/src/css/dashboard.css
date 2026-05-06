@@ -1,8 +1,16 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
 .o_pet_clinic_dashboard {
     padding: 20px;
     background-color: #f4f6f9;
     min-height: 100vh;
+    height: 100%;
+    overflow-y: auto;
     font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.o_pet_clinic_dashboard .fa {
+    font-family: "FontAwesome" !important;
 }
 
 /* ============================================ */
@@ -53,7 +61,6 @@
 }
 
 .pc-btn-process {
-    background: linear-gradient(135deg, #714B67, #8B5E83);
     border: none;
     border-radius: 8px;
     padding: 8px 24px;
@@ -63,9 +70,8 @@
 }
 
 .pc-btn-process:hover {
-    background: linear-gradient(135deg, #5a3a52, #714B67);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(113,75,103,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* ============================================ */
