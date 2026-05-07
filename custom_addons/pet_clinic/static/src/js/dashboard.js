@@ -81,17 +81,56 @@ class PetClinicDashboard extends Component {
             "pet_clinic.visitation",
             visitDomain
         );
+
+        const dateDomain = [["active", "=", true]];
+        if (this.state.date_from) {
+            dateDomain.push(["create_date", ">=", this.state.date_from + " 00:00:00"]);
+        }
+        if (this.state.date_to) {
+            dateDomain.push(["create_date", "<=", this.state.date_to + " 23:59:59"]);
+        }
+
+        const doctorDomain = [...dateDomain];
+        const memberDomain = [...dateDomain];
+        const petDomain = [...dateDomain];
+
+        if (this.state.lokasi_id) {
+            doctorDomain.push(["lokasi_ids", "in", [parseInt(this.state.lokasi_id)]]);
+            
+            // For Members and Pets, we find those who have visited this branch
+            const visitations = await this.orm.searchRead(
+                "pet_clinic.visitation",
+                [["lokasi_pemeriksaan", "=", parseInt(this.state.lokasi_id)]],
+                ["owner_id", "pet_id"]
+            );
+            
+            const ownerIds = [...new Set(visitations.filter(v => v.owner_id).map(v => v.owner_id[0]))];
+            const petIds = [...new Set(visitations.filter(v => v.pet_id).map(v => v.pet_id[0]))];
+
+            if (ownerIds.length > 0) {
+                memberDomain.push(["id", "in", ownerIds]);
+            } else {
+                memberDomain.push(["id", "=", -1]); // Force 0 if no visits
+            }
+
+            if (petIds.length > 0) {
+                petDomain.push(["id", "in", petIds]);
+            } else {
+                petDomain.push(["id", "=", -1]);
+            }
+        }
+
         this.state.memberCount = await this.orm.searchCount(
             "pet_clinic.client",
-            [["active", "=", true]]
+            memberDomain
         );
         this.state.petCount = await this.orm.searchCount(
             "pet_clinic.pet",
-            [["active", "=", true]]
+            petDomain
         );
         this.state.doctorCount = await this.orm.searchCount(
             "pet_clinic.doctor",
-            [["active", "=", true]]
+            doctorDomain
         );
 
         // Service Data

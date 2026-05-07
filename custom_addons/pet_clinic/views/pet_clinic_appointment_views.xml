@@ -54,7 +54,9 @@
                             <field name="owner_id"/>
                             <field name="pet_id" domain="[('owner_id', '=', owner_id)]"/>
                             <field name="service_id"/>
-                            <field name="doctor_id"/>
+                            <field name="is_grooming" invisible="1"/>
+                            <field name="doctor_id" invisible="is_grooming"/>
+                            <field name="groomer_id" invisible="not is_grooming"/>
                         </group>
                         <group>
                             <field name="date"/>
@@ -108,16 +110,16 @@
                                 <field name="name"/>
                             </strong>
                             <div>
-                                <i class="fa fa-user me-1"/> <field name="owner_id"/>
+                                <i class="fa fa-user me-1" title="Owner"/> <field name="owner_id"/>
                             </div>
                             <div>
-                                <i class="fa fa-paw me-1"/> <field name="pet_id"/>
+                                <i class="fa fa-paw me-1" title="Pet"/> <field name="pet_id"/>
                             </div>
                             <div>
-                                <i class="fa fa-user-md me-1"/> <field name="doctor_id"/>
+                                <i class="fa fa-user-md me-1" title="Doctor"/> <field name="doctor_id"/>
                             </div>
                             <div>
-                                <i class="fa fa-clock-o me-1"/> <field name="date"/>
+                                <i class="fa fa-clock-o me-1" title="Date"/> <field name="date"/>
                             </div>
                             <div>
                                 <field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'confirmed': 'warning', 'done': 'success', 'cancel': 'danger'}}"/>

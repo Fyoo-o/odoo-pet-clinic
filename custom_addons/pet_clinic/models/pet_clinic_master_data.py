@@ -34,6 +34,9 @@ class PetClinicDoctor(models.Model):
     phone = fields.Char(string='Phone')
     specialization = fields.Char(string='Specialization')
     active = fields.Boolean(default=True)
+    lokasi_ids = fields.Many2many(
+        'pet_clinic.lokasi', string='Cabang / Lokasi',
+    )
 
 
 class PetClinicParamedis(models.Model):
@@ -43,6 +46,9 @@ class PetClinicParamedis(models.Model):
 
     name = fields.Char(string='Name', required=True)
     phone = fields.Char(string='Phone')
+    lokasi_ids = fields.Many2many(
+        'pet_clinic.lokasi', string='Cabang / Lokasi',
+    )
 
 
 class PetClinicGroomer(models.Model):
@@ -52,6 +58,9 @@ class PetClinicGroomer(models.Model):
 
     name = fields.Char(string='Name', required=True)
     phone = fields.Char(string='Phone')
+    lokasi_ids = fields.Many2many(
+        'pet_clinic.lokasi', string='Cabang / Lokasi',
+    )
 
 
 class PetClinicRoom(models.Model):
@@ -61,6 +70,9 @@ class PetClinicRoom(models.Model):
 
     name = fields.Char(string='Name', required=True)
     no_ruangan = fields.Char(string='No. Ruangan')
+    lokasi_ids = fields.Many2many(
+        'pet_clinic.lokasi', string='Cabang / Lokasi',
+    )
 
 
 class PetClinicLokasi(models.Model):
