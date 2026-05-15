@@ -95,6 +95,16 @@
                         <div class="pc-section-header">
                             <h5><i class="fa fa-cogs me-2" title="Services Icon"/>Layanan</h5>
                             <div class="pc-section-filters">
+                                <div class="pc-search-wrapper">
+                                    <i class="fa fa-search"/>
+                                    <input type="text" class="pc-search-input" placeholder="Search Layanan..." t-on-input="onSearchService"/>
+                                </div>
+                                <select class="pc-filter-select" t-on-change="onFilterServiceType" style="width: 150px;">
+                                    <option value="">Semua Layanan</option>
+                                    <t t-foreach="state.serviceTypes" t-as="st" t-key="st.id">
+                                        <option t-att-value="st.id" t-att-selected="state.filterServiceType == st.id"><t t-esc="st.name"/></option>
+                                    </t>
+                                </select>
                                 <button t-att-class="'btn btn-sm ' + (state.serviceFilter === 'today' ? 'btn-primary' : 'btn-outline-secondary')"
                                         t-on-click="() => this.onServiceFilterChange('today')">Today</button>
                                 <button t-att-class="'btn btn-sm ' + (state.serviceFilter === 'month' ? 'btn-primary' : 'btn-outline-secondary')"
@@ -103,27 +113,60 @@
                                         t-on-click="() => this.onServiceFilterChange('year')">Year</button>
                             </div>
                         </div>
+                        <div class="pc-table-wrapper">
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Daftar Layanan</th>
-                                    <th class="text-end">Total Layanan</th>
+                                    <th>ID</th>
+                                    <th>Layanan</th>
+                                    <th>Pemilik</th>
+                                    <th>Hewan</th>
+                                    <th>Staff Medis</th>
+                                    <th>Lokasi</th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="state.serviceData" t-as="svc" t-key="svc.no">
-                                    <tr>
-                                        <td><t t-esc="svc.no"/></td>
+                                <t t-foreach="state.serviceData" t-as="svc" t-key="svc.id">
+                                    <tr style="cursor:pointer" t-on-click="() => this.openServiceDetail(svc.id)">
                                         <td><t t-esc="svc.name"/></td>
-                                        <td class="text-end"><t t-esc="svc.count"/></td>
+                                        <td><t t-esc="svc.service_type ? svc.service_type[1] : '-'"/></td>
+                                        <td><t t-esc="svc.nama_pemilik ? svc.nama_pemilik[1] : '-'"/></td>
+                                        <td><t t-esc="svc.pet_id ? svc.pet_id[1] : '-'"/></td>
+                                        <td><t t-esc="svc.penanggung_jawab_name || '-'"/></td>
+                                        <td><t t-esc="svc.visitation_lokasi_id ? svc.visitation_lokasi_id[1] : '-'"/></td>
+                                        <td><t t-esc="svc.date_handling"/></td>
                                     </tr>
                                 </t>
                                 <tr t-if="!state.serviceData.length">
-                                    <td colspan="3" class="text-center text-muted">Tidak ada data</td>
+                                    <td colspan="7" class="text-center text-muted">Tidak ada data</td>
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+                        <!-- Pagination Layanan -->
+                        <div class="pc-table-footer">
+                            <div class="pc-pagination">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="state.servicePage === 0"
+                                    t-on-click="servicePrev">
+                                    <i class="fa fa-chevron-left" title="Previous"/> Prev
+                                </button>
+                                <span class="pc-page-info">
+                                    <t t-esc="state.servicePage * 6 + 1"/> -
+                                    <t t-esc="Math.min((state.servicePage + 1) * 6, state.serviceTotal)"/>
+                                    / <t t-esc="state.serviceTotal"/>
+                                </span>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="(state.servicePage + 1) * 6 >= state.serviceTotal"
+                                    t-on-click="serviceNext">
+                                    Next <i class="fa fa-chevron-right" title="Next"/>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="showAllService">
+                                <i class="fa fa-list" title="Show All"/> Show All
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Section Penanganan -->
@@ -131,6 +174,17 @@
                         <div class="pc-section-header">
                             <h5><i class="fa fa-medkit me-2" title="Treatment Icon"/>Penanganan</h5>
                             <div class="pc-section-filters">
+                                <div class="pc-search-wrapper">
+                                    <i class="fa fa-search"/>
+                                    <input type="text" class="pc-search-input" placeholder="Search Penanganan..." t-on-input="onSearchPenanganan"/>
+                                </div>
+                                <select class="pc-filter-select" t-on-change="onFilterPenangananStatus" style="width: 140px;">
+                                    <option value="">Semua Status</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="in_process">In Process</option>
+                                    <option value="done">Done</option>
+                                    <option value="cancel">Cancel</option>
+                                </select>
                                 <button t-att-class="'btn btn-sm ' + (state.penangananFilter === 'today' ? 'btn-primary' : 'btn-outline-secondary')"
                                         t-on-click="() => this.onPenangananFilterChange('today')">Today</button>
                                 <button t-att-class="'btn btn-sm ' + (state.penangananFilter === 'month' ? 'btn-primary' : 'btn-outline-secondary')"
@@ -139,29 +193,66 @@
                                         t-on-click="() => this.onPenangananFilterChange('year')">Year</button>
                             </div>
                         </div>
+                        <div class="pc-table-wrapper">
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
+                                    <th>ID</th>
+                                    <th>Pemilik</th>
+                                    <th>Hewan</th>
+                                    <th>Dokter</th>
                                     <th>Penanganan</th>
                                     <th>Status</th>
-                                    <th class="text-end">Total</th>
+                                    <th>Lokasi</th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="state.penangananData" t-as="p" t-key="p.no">
-                                    <tr>
-                                        <td><t t-esc="p.no"/></td>
-                                        <td><t t-esc="p.penanganan"/></td>
-                                        <td><t t-esc="p.state"/></td>
-                                        <td class="text-end"><t t-esc="p.count"/></td>
+                                <t t-foreach="state.penangananData" t-as="p" t-key="p.id">
+                                    <tr style="cursor:pointer" t-on-click="() => this.openPenangananDetail(p.penanganan, p.state)">
+                                        <td><t t-esc="p.name"/></td>
+                                        <td><t t-esc="p.owner_id ? p.owner_id[1] : '-'"/></td>
+                                        <td><t t-esc="p.pet_id ? p.pet_id[1] : '-'"/></td>
+                                        <td><t t-esc="p.doctor_id ? p.doctor_id[1] : '-'"/></td>
+                                        <td><t t-esc="p.penanganan === 'rawat_jalan' ? 'Rawat Jalan' : (p.penanganan === 'rawat_inap' ? 'Rawat Inap' : '-')"/></td>
+                                        <td>
+                                            <span t-attf-class="badge rounded-pill #{p.state === 'done' ? 'bg-success' : (p.state === 'in_process' ? 'bg-warning text-dark' : (p.state === 'cancel' ? 'bg-danger' : 'bg-secondary'))}">
+                                                <t t-esc="p.state === 'done' ? 'Done' : (p.state === 'in_process' ? 'In Process' : (p.state === 'cancel' ? 'Cancel' : (p.state === 'draft' ? 'Draft' : '-')))"/>
+                                            </span>
+                                        </td>
+                                        <td><t t-esc="p.lokasi_pemeriksaan ? p.lokasi_pemeriksaan[1] : '-'"/></td>
+                                        <td><t t-esc="p.date_start"/></td>
                                     </tr>
                                 </t>
                                 <tr t-if="!state.penangananData.length">
-                                    <td colspan="4" class="text-center text-muted">Tidak ada data</td>
+                                    <td colspan="8" class="text-center text-muted">Tidak ada data</td>
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+                        <!-- Pagination Penanganan -->
+                        <div class="pc-table-footer">
+                            <div class="pc-pagination">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="state.penangananPage === 0"
+                                    t-on-click="penangananPrev">
+                                    <i class="fa fa-chevron-left" title="Previous"/> Prev
+                                </button>
+                                <span class="pc-page-info">
+                                    <t t-esc="state.penangananPage * 6 + 1"/> -
+                                    <t t-esc="Math.min((state.penangananPage + 1) * 6, state.penangananTotal)"/>
+                                    / <t t-esc="state.penangananTotal"/>
+                                </span>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="(state.penangananPage + 1) * 6 >= state.penangananTotal"
+                                    t-on-click="penangananNext">
+                                    Next <i class="fa fa-chevron-right" title="Next"/>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="showAllPenanganan">
+                                <i class="fa fa-list" title="Show All"/> Show All
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -170,7 +261,14 @@
                     <div class="pc-section-card">
                         <div class="pc-section-header">
                             <h5><i class="fa fa-calendar-check-o me-2" title="Visitations Today Icon"/>Kunjungan Hari Ini</h5>
+                            <div class="pc-section-filters">
+                                <div class="pc-search-wrapper">
+                                    <i class="fa fa-search"/>
+                                    <input type="text" class="pc-search-input" placeholder="Search Kunjungan..." t-on-input="onSearchVisitation"/>
+                                </div>
+                            </div>
                         </div>
+                        <div class="pc-table-wrapper">
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
@@ -184,7 +282,7 @@
                             </thead>
                             <tbody>
                                 <t t-foreach="state.visitationsToday" t-as="v" t-key="v.id">
-                                    <tr>
+                                    <tr style="cursor:pointer" t-on-click="() => this.openVisitationDetail(v.id)">
                                         <td><t t-esc="v.name"/></td>
                                         <td><t t-esc="v.owner_id ? v.owner_id[1] : '-'"/></td>
                                         <td><t t-esc="v.pet_id ? v.pet_id[1] : '-'"/></td>
@@ -198,33 +296,64 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+                        <!-- Pagination Kunjungan -->
+                        <div class="pc-table-footer">
+                            <div class="pc-pagination">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="state.visitationPage === 0"
+                                    t-on-click="visitationPrev">
+                                    <i class="fa fa-chevron-left" title="Previous"/> Prev
+                                </button>
+                                <span class="pc-page-info">
+                                    <t t-esc="state.visitationPage * 6 + 1"/> -
+                                    <t t-esc="Math.min((state.visitationPage + 1) * 6, state.visitationTotal)"/>
+                                    / <t t-esc="state.visitationTotal"/>
+                                </span>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="(state.visitationPage + 1) * 6 >= state.visitationTotal"
+                                    t-on-click="visitationNext">
+                                    Next <i class="fa fa-chevron-right" title="Next"/>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="showAllVisitation">
+                                <i class="fa fa-list" title="Show All"/> Show All
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Janji Hari Ini -->
                     <div class="pc-section-card">
                         <div class="pc-section-header">
                             <h5><i class="fa fa-clock-o me-2" title="Appointments Today Icon"/>Janji Hari Ini</h5>
+                            <div class="pc-section-filters">
+                                <div class="pc-search-wrapper">
+                                    <i class="fa fa-search"/>
+                                    <input type="text" class="pc-search-input" placeholder="Search Janji Temu..." t-on-input="onSearchAppointment"/>
+                                </div>
+                            </div>
                         </div>
+                        <div class="pc-table-wrapper">
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Pemilik</th>
                                     <th>Hewan</th>
-                                    <th>Dokter</th>
+                                    <th>Staff Medis</th>
                                     <th>Lokasi</th>
                                     <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="state.appointmentsToday" t-as="a" t-key="a.id">
-                                    <tr>
+                                    <tr style="cursor:pointer" t-on-click="() => this.openAppointmentDetail(a.id)">
                                         <td><t t-esc="a.name"/></td>
                                         <td><t t-esc="a.owner_id ? a.owner_id[1] : '-'"/></td>
                                         <td><t t-esc="a.pet_id ? a.pet_id[1] : '-'"/></td>
-                                        <td><t t-esc="a.doctor_id ? a.doctor_id[1] : '-'"/></td>
+                                        <td><t t-esc="a.doctor_id ? a.doctor_id[1] : (a.groomer_id ? a.groomer_id[1] : '-')"/></td>
                                         <td><t t-esc="a.location_id ? a.location_id[1] : '-'"/></td>
-                                        <td><t t-esc="a.date"/></td>
+                                        <td><t t-esc="a.date ? a.date.substring(0, 16) : '-'"/></td>
                                     </tr>
                                 </t>
                                 <tr t-if="!state.appointmentsToday.length">
@@ -232,6 +361,159 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+                        <!-- Pagination Janji -->
+                        <div class="pc-table-footer">
+                            <div class="pc-pagination">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="state.appointmentPage === 0"
+                                    t-on-click="appointmentPrev">
+                                    <i class="fa fa-chevron-left" title="Previous"/> Prev
+                                </button>
+                                <span class="pc-page-info">
+                                    <t t-esc="state.appointmentPage * 6 + 1"/> -
+                                    <t t-esc="Math.min((state.appointmentPage + 1) * 6, state.appointmentTotal)"/>
+                                    / <t t-esc="state.appointmentTotal"/>
+                                </span>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="(state.appointmentPage + 1) * 6 >= state.appointmentTotal"
+                                    t-on-click="appointmentNext">
+                                    Next <i class="fa fa-chevron-right" title="Next"/>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="showAllAppointment">
+                                <i class="fa fa-list" title="Show All"/> Show All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Management Section -->
+                <div class="pc-section-row">
+                    <div class="pc-section-card pc-section-full pc-product-card">
+                        <div class="pc-section-header">
+                            <h5><i class="fa fa-cubes me-2" title="Products Icon"/>Manajemen Produk</h5>
+                            <div class="pc-section-filters">
+                                <div class="pc-search-wrapper">
+                                    <i class="fa fa-search"/>
+                                    <input type="text" class="pc-search-input" placeholder="Search Produk..." t-on-input="onSearchProduct"/>
+                                </div>
+                                <select class="pc-filter-select" t-on-change="onFilterProductType" style="width: 150px;">
+                                    <option value="">Semua Tipe</option>
+                                    <option value="service">Layanan</option>
+                                    <option value="consu">Konsumabel</option>
+                                    <option value="product">Stok</option>
+                                </select>
+                                <button t-att-class="'btn btn-sm ' + (state.productPeriod === 'today' ? 'btn-primary' : 'btn-outline-secondary')"
+                                        t-on-click="() => this.onProductPeriodChange('today')">Today</button>
+                                <button t-att-class="'btn btn-sm ' + (state.productPeriod === 'month' ? 'btn-primary' : 'btn-outline-secondary')"
+                                        t-on-click="() => this.onProductPeriodChange('month')">Month</button>
+                                <button t-att-class="'btn btn-sm ' + (state.productPeriod === 'year' ? 'btn-primary' : 'btn-outline-secondary')"
+                                        t-on-click="() => this.onProductPeriodChange('year')">Year</button>
+                            </div>
+                        </div>
+
+                        <!-- Mini Product KPI Cards -->
+                        <div class="pc-product-kpi-row">
+                            <div class="pc-product-kpi-item pc-pkpi-blue">
+                                <i class="fa fa-box pc-pkpi-icon"/>
+                                <div class="pc-pkpi-value"><t t-esc="state.productSummary.totalActive"/></div>
+                                <div class="pc-pkpi-label">Total Produk Aktif</div>
+                            </div>
+                            <div class="pc-product-kpi-item pc-pkpi-red">
+                                <i class="fa fa-exclamation-triangle pc-pkpi-icon"/>
+                                <div class="pc-pkpi-value"><t t-esc="state.productSummary.lowStockCount"/></div>
+                                <div class="pc-pkpi-label">Stok Rendah (&lt;5)</div>
+                            </div>
+                            <div class="pc-product-kpi-item pc-pkpi-green">
+                                <i class="fa fa-trophy pc-pkpi-icon"/>
+                                <div class="pc-pkpi-value" style="font-size:14px; font-weight:700;"><t t-esc="state.productSummary.topProduct"/></div>
+                                <div class="pc-pkpi-label">Terlaris (<t t-esc="state.productSummary.topProductCount"/>×)</div>
+                            </div>
+                        </div>
+
+                        <!-- Product Table -->
+                        <div class="pc-table-wrapper pc-product-table-wrapper">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Produk</th>
+                                        <th>Tipe</th>
+                                        <th>Kategori</th>
+                                        <th class="text-end">Harga Jual</th>
+                                        <th class="text-center">Stok</th>
+                                        <th class="text-center">Dipakai</th>
+                                        <th class="text-end">Total Omset</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.productData" t-as="prod" t-key="prod.id">
+                                        <tr style="cursor:pointer" t-on-click="() => this.openProductDetail(prod.id)">
+                                            <td><strong><t t-esc="prod.name"/></strong></td>
+                                            <td>
+                                                <span t-attf-class="badge rounded-pill #{prod.type === 'service' ? 'bg-info text-dark' : (prod.type === 'consu' ? 'bg-warning text-dark' : 'bg-primary')}">
+                                                    <t t-esc="prod.type === 'service' ? 'Layanan' : (prod.type === 'consu' ? 'Konsumabel' : 'Stok')"/>
+                                                </span>
+                                            </td>
+                                            <td><t t-esc="prod.categ_id ? prod.categ_id[1] : '-'"/></td>
+                                            <td class="text-end">
+                                                Rp <t t-esc="prod.list_price ? prod.list_price.toLocaleString('id-ID') : '0'"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-if="prod.type === 'service'">
+                                                    <span class="text-muted">—</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-attf-class="badge rounded-pill #{prod.qty_available >= 20 ? 'bg-success' : (prod.qty_available >= 5 ? 'bg-warning text-dark' : (prod.qty_available > 0 ? 'bg-orange' : 'bg-danger'))}">
+                                                        <t t-esc="prod.qty_available"/>
+                                                    </span>
+                                                </t>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-attf-class="badge rounded-pill #{prod.usage_count > 0 ? 'bg-success' : 'bg-secondary'}">
+                                                    <t t-esc="prod.usage_count || 0"/>×
+                                                </span>
+                                            </td>
+                                            <td class="text-end">
+                                                <t t-if="prod.total_omset > 0">
+                                                    <strong>Rp <t t-esc="prod.total_omset.toLocaleString('id-ID')"/></strong>
+                                                </t>
+                                                <t t-else=""><span class="text-muted">—</span></t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr t-if="!state.productData.length">
+                                        <td colspan="7" class="text-center text-muted py-3">
+                                            <i class="fa fa-inbox me-2"/>Tidak ada data produk
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination Product -->
+                        <div class="pc-table-footer">
+                            <div class="pc-pagination">
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="state.productPage === 0"
+                                    t-on-click="productPrev">
+                                    <i class="fa fa-chevron-left" title="Previous"/> Prev
+                                </button>
+                                <span class="pc-page-info">
+                                    <t t-esc="state.productPage * 6 + 1"/> -
+                                    <t t-esc="Math.min((state.productPage + 1) * 6, state.productTotal)"/>
+                                    / <t t-esc="state.productTotal"/>
+                                </span>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                    t-att-disabled="(state.productPage + 1) * 6 >= state.productTotal"
+                                    t-on-click="productNext">
+                                    Next <i class="fa fa-chevron-right" title="Next"/>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" t-on-click="showAllProducts">
+                                <i class="fa fa-list" title="Show All"/> Show All
+                            </button>
+                        </div>
                     </div>
                 </div>
 

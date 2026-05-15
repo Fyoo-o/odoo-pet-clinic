@@ -40,6 +40,19 @@ class PetClinicService(models.Model):
         'pet_clinic.doctor', string='Dokter DP/IP',
         domain="[('lokasi_ids', '=?', visitation_lokasi_id)]",
     )
+    groomer_id = fields.Many2one(
+        'pet_clinic.groomer', string='Groomer',
+        domain="[('lokasi_ids', '=?', visitation_lokasi_id)]",
+    )
+    paramedis_id = fields.Many2one(
+        'pet_clinic.paramedis', string='Paramedis',
+        domain="[('lokasi_ids', '=?', visitation_lokasi_id)]",
+    )
+    penanggung_jawab_name = fields.Char(
+        string='Penanggung Jawab',
+        compute='_compute_penanggung_jawab_name',
+        store=True,
+    )
     date_handling = fields.Date(
         string='Date Handling', default=fields.Date.today,
     )
@@ -71,6 +84,18 @@ class PetClinicService(models.Model):
     def _compute_total_price(self):
         for rec in self:
             rec.total_price = rec.amount * rec.unit_price
+
+    @api.depends('dokter_penerima', 'groomer_id', 'paramedis_id')
+    def _compute_penanggung_jawab_name(self):
+        for rec in self:
+            names = []
+            if rec.dokter_penerima:
+                names.append(rec.dokter_penerima.name)
+            if rec.groomer_id:
+                names.append(rec.groomer_id.name)
+            if rec.paramedis_id:
+                names.append(rec.paramedis_id.name)
+            rec.penanggung_jawab_name = ', '.join(names) if names else ''
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -12,7 +12,7 @@
                 <field name="pet_id"/>
                 <field name="nama_pemilik" string="Owner"/>
                 <field name="service_type" string="Service"/>
-                <field name="dokter_penerima" string="Doctor"/>
+                <field name="penanggung_jawab_name" string="Penanggung Jawab"/>
                 <field name="date_handling"/>
                 <field name="amount"/>
                 <field name="unit_price"/>
@@ -50,6 +50,8 @@
                         <group>
                             <field name="dokter_penerima" string="Dokter Penerima"/>
                             <field name="dokter_dp_ip" string="Dokter DP/IP"/>
+                            <field name="groomer_id"/>
+                            <field name="paramedis_id"/>
                             <field name="date_handling"/>
                             <field name="amount"/>
                             <field name="unit_price"/>

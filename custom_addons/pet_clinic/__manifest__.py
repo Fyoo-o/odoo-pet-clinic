@@ -34,7 +34,6 @@
         'security/ir.model.access.csv',
         # Data
         'data/ir_sequence_data.xml',
-        'data/master_data.xml',
         # Reports (must load before views that reference report actions)
         'report/pet_clinic_report.xml',
         # Views

@@ -1,0 +1,6 @@
+products = env['product.product'].browse([129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139])
+templates = products.mapped('product_tmpl_id')
+products.unlink()
+templates.unlink()
+env.cr.commit()
+print("Berhasil dihapus!")

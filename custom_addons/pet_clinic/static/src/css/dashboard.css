@@ -166,6 +166,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
     gap: 20px;
+    align-items: flex-start;
 }
 
 .pc-section-card {
@@ -174,6 +175,9 @@
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     transition: box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 380px;
 }
 
 .pc-section-card:hover {
@@ -206,7 +210,63 @@
 
 .pc-section-filters {
     display: flex;
-    gap: 6px;
+    gap: 8px;
+    align-items: center;
+}
+
+.pc-search-wrapper {
+    position: relative;
+    width: 200px;
+}
+
+.pc-search-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 12px;
+}
+
+.pc-search-input {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 4px 12px 4px 32px;
+    font-size: 12px;
+    outline: none;
+    transition: all 0.2s;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.pc-search-input:focus {
+    border-color: #2b5278;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(43, 82, 120, 0.1);
+}
+
+.pc-filter-select {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 4px 28px 4px 14px;
+    font-size: 12px;
+    outline: none;
+    background-color: #f8f9fa;
+    transition: all 0.2s;
+    cursor: pointer;
+    color: #333;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+}
+
+.pc-filter-select:focus {
+    border-color: #2b5278;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(43, 82, 120, 0.1);
 }
 
 .pc-section-filters .btn {
@@ -221,6 +281,13 @@
     margin: 0;
 }
 
+/* Scrollable table body inside fixed-height card */
+.pc-section-card .pc-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
 .pc-section-card .table thead th {
     background: #f8f9fa;
     border-bottom: 2px solid #dee2e6;
@@ -230,6 +297,8 @@
     letter-spacing: 0.5px;
     color: #555;
     padding: 10px 8px;
+    vertical-align: middle;
+    line-height: 1.2;
 }
 
 .pc-section-card .table tbody td {
@@ -254,4 +323,118 @@
     .pc-filter-row {
         flex-direction: column;
     }
+}
+
+/* ============================================ */
+/* Table Footer Pagination */
+/* ============================================ */
+.pc-table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 4px 4px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4px;
+}
+
+.pc-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pc-page-info {
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+    min-width: 80px;
+    text-align: center;
+}
+
+.pc-pagination .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ============================================ */
+/* Product Management Section                  */
+/* ============================================ */
+.pc-product-card {
+    height: auto !important;
+    min-height: 0;
+}
+
+.pc-product-table-wrapper {
+    max-height: 280px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Mini Product KPI Row */
+.pc-product-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.pc-product-kpi-item {
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: default;
+}
+
+.pc-product-kpi-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.pc-pkpi-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+    opacity: 0.85;
+}
+
+.pc-pkpi-value {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.pc-pkpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    opacity: 0.85;
+    text-transform: uppercase;
+}
+
+/* Color Themes for Product Mini KPIs */
+.pc-pkpi-blue {
+    background: linear-gradient(135deg, #2b5278, #3a6fa8);
+    color: #fff;
+}
+
+.pc-pkpi-red {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+}
+
+.pc-pkpi-green {
+    background: linear-gradient(135deg, #1a7a4a, #27ae60);
+    color: #fff;
+}
+
+/* Stock badge orange (between warning and danger) */
+.bg-orange {
+    background-color: #e67e22 !important;
+    color: #fff !important;
 }

@@ -161,7 +161,9 @@
                                 <list editable="bottom">
                                     <field name="visitation_lokasi_id" column_invisible="1"/>
                                     <field name="service_type" string="Service"/>
-                                    <field name="dokter_penerima" string="Doctor"/>
+                                    <field name="dokter_penerima"/>
+                                    <field name="groomer_id"/>
+                                    <field name="paramedis_id"/>
                                     <field name="amount"/>
                                     <field name="unit_price"/>
                                     <field name="total_price" sum="Total"/>
